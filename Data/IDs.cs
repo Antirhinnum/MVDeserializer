@@ -32,11 +32,6 @@ namespace MVDeserializer.Data
 			int id = serializer.Deserialize<int>(reader);
 			ConstructorInfo constructor = objectType.GetConstructor(new Type[] { typeof(int) });
 			return constructor.Invoke(new object[] { id });
-			//if (objectType == typeof(EventID))
-			//{
-			//	EventID eventID = idClass as EventID;
-			//	eventID.MapID = new MapID();
-			//}
 		}
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
