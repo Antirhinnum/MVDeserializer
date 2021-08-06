@@ -418,9 +418,8 @@ namespace MVDeserializer.Data
 		[JsonProperty("actorId")]
 		public ActorID ActorID { get; set; }
 
-		[JsonConverter(typeof(ActorEquipmentConverter))]
 		[JsonProperty("equips")]
-		public IList<IEquipmentID> Equipment { get; set; }
+		public IList<int> Equipment { get; set; }
 
 		[JsonProperty("level")]
 		public int Level { get; set; }
@@ -633,4 +632,9 @@ namespace MVDeserializer.Data
 		[JsonProperty("windowTone")]
 		public Color WindowTone { get; set; }
 	}
+
+	//public class GameSystem
+	//{
+
+	//}
 }

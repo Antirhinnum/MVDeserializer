@@ -47,19 +47,62 @@ namespace MVDeserializer.Data
 	public class State
 	{
 		[JsonProperty("id")]
-		public StateID ID { get; set; }
+		public int ID { get; set; }
 
-		[JsonProperty("autoRemovalTiming")]
-		public AutoRemovalTiming AutoRemovalTiming { get; set; }
+		#region General Settings
 
-		[JsonProperty("chanceByDamage")]
-		public int ChanceByDamage { get; set; }
+		[JsonProperty("name")]
+		public string Name { get; set; }
 
 		[JsonProperty("iconIndex")]
 		public int IconIndex { get; set; }
 
+		[JsonProperty("restiction")]
+		public Restriction Restriction { get; set; }
+
+		[JsonProperty("priority")]
+		public int Priority { get; set; }
+
+		[JsonProperty("motion")]
+		public BattlerMotion Motion { get; set; }
+
+		[JsonProperty("overlay")]
+		public OverlayIndex Overlay { get; set; }
+
+		#endregion General Settings
+
+		#region Removal Conditions
+
+		[JsonProperty("removeAtBattleEnd")]
+		public bool RemoveAtBattleEnd { get; set; }
+
+		[JsonProperty("removeByRestriction")]
+		public bool RemoveByRestriction { get; set; }
+
+		[JsonProperty("autoRemovalTiming")]
+		public AutoRemovalTiming AutoRemovalTiming { get; set; }
+
+		[JsonProperty("minTurns")]
+		public int MinTurns { get; set; }
+
 		[JsonProperty("maxTurns")]
 		public int MaxTurns { get; set; }
+
+		[JsonProperty("removeByDamage")]
+		public bool RemoveByDamage { get; set; }
+
+		[JsonProperty("chanceByDamage")]
+		public int ChanceByDamage { get; set; }
+
+		[JsonProperty("removeByWalking")]
+		public bool RemoveByWalking { get; set; }
+
+		[JsonProperty("stepsToRemove")]
+		public int StepsToRemove { get; set; }
+
+		#endregion Removal Conditions
+
+		#region Messages
 
 		[JsonProperty("message1")]
 		public string ActorInflictedMessage { get; set; }
@@ -71,48 +114,17 @@ namespace MVDeserializer.Data
 		public string PersistMessage { get; set; }
 
 		[JsonProperty("message4")]
-		public string RemoveMEssage { get; set; }
+		public string RemoveMessage { get; set; }
 
-		[JsonProperty("minTurns")]
-		public int MinTurns { get; set; }
-
-		[JsonProperty("motion")]
-		public BattlerMotion Motion { get; set; }
-
-		[JsonProperty("name")]
-		public string Name { get; set; }
+		#endregion Messages
 
 		[JsonProperty("note")]
 		public string Note { get; set; }
 
-		[JsonProperty("overlay")]
-		public OverlayIndex Overlay { get; set; }
-
-		[JsonProperty("priority")]
-		public int Priority { get; set; }
+		[JsonProperty("traits")]
+		public IList<Trait> Traits { get; set; }
 
 		[JsonProperty("releaseByDamage")]
 		public bool ReleasebyDamage { get; set; }
-
-		[JsonProperty("removeAtBattleEnd")]
-		public bool RemoveAtBattleEnd { get; set; }
-
-		[JsonProperty("removeByDamage")]
-		public bool RemoveByDamage { get; set; }
-
-		[JsonProperty("removeByRestriction")]
-		public bool RemoveByRestriction { get; set; }
-
-		[JsonProperty("removeByWalking")]
-		public bool RemoveByWalking { get; set; }
-
-		[JsonProperty("restiction")]
-		public Restriction Restriction { get; set; }
-
-		[JsonProperty("stepsToRemove")]
-		public int StepsToRemove { get; set; }
-
-		[JsonProperty("traits")]
-		public IList<Trait> Traits { get; set; }
 	}
 }

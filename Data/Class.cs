@@ -5,6 +5,9 @@ using System.Diagnostics;
 
 namespace MVDeserializer.Data
 {
+	/// <summary>
+	/// The parameters used for a Class's EXP curve given names.
+	/// </summary>
 	[DebuggerDisplay("[{BaseValue}, {ExtraValue}, {AccelerationA}, {AccelerationB}]")]
 	[JsonConverter(typeof(EXPParametersConverter))]
 	public struct EXPParameters
@@ -15,18 +18,34 @@ namespace MVDeserializer.Data
 		public int AccelerationB { get; set; }
 	}
 
-	public struct LearntSkill
+	/// <summary>
+	/// A set of information about a 'learning': A skill a Class learns at a certain level.
+	/// </summary>
+	public struct Learning
 	{
+		/// <summary>
+		/// The internal ID of the Skill to learn.
+		/// </summary>
+		[JsonProperty("skillId")]
+		public int SkillID { get; set; }
+
+		/// <summary>
+		/// The level <see cref="SkillID"/> is learned at.
+		/// </summary>
 		[JsonProperty("level")]
 		public int Level { get; set; }
 
+		/// <summary>
+		/// This Learning's Notes field.
+		/// </summary>
 		[JsonProperty("note")]
 		public string Note { get; set; }
-
-		[JsonProperty("skillId")]
-		public SkillID SkillID { get; set; }
 	}
 
+	/// <summary>
+	/// A set of information about a Class's stats per level.
+	/// Each list is indexed by level (MaxHP[1] is Max HP at Level 1).
+	/// </summary>
 	[JsonConverter(typeof(ParameterCurvesConverter))]
 	public struct ParameterCurves
 	{
@@ -40,11 +59,9 @@ namespace MVDeserializer.Data
 		public IList<int> Luck { get; set; }
 	}
 
-	public class EXPParametersConverter : JsonConverter
+	public class EXPParametersConverter : JsonConverter<EXPParameters>
 	{
-		public override bool CanConvert(Type objectType) => objectType == typeof(EXPParameters);
-
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override EXPParameters ReadJson(JsonReader reader, Type objectType, EXPParameters existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
 			IList<int> parameters = serializer.Deserialize<IList<int>>(reader);
 			return new EXPParameters()
@@ -56,17 +73,16 @@ namespace MVDeserializer.Data
 			};
 		}
 
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
+		public override void WriteJson(JsonWriter writer, EXPParameters value, JsonSerializer serializer)
+		{
+			IList<int> toList = new List<int> { value.BaseValue, value.ExtraValue, value.AccelerationA, value.AccelerationB };
+			serializer.Serialize(writer, toList);
+		}
 	}
 
-	public class ParameterCurvesConverter : JsonConverter
+	public class ParameterCurvesConverter : JsonConverter<ParameterCurves>
 	{
-		public override bool CanConvert(Type objectType)
-		{
-			return objectType == typeof(ParameterCurves);
-		}
-
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override ParameterCurves ReadJson(JsonReader reader, Type objectType, ParameterCurves existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
 			IList<IList<int>> curves = serializer.Deserialize<IList<IList<int>>>(reader);
 			return new ParameterCurves()
@@ -82,31 +98,63 @@ namespace MVDeserializer.Data
 			};
 		}
 
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
+		public override void WriteJson(JsonWriter writer, ParameterCurves value, JsonSerializer serializer)
+		{
+			IList<IList<int>> toList = new List<IList<int>> { value.MaxHP, value.MaxMP, value.Attack, value.Defense, value.MagicAttack, value.MagicDefense, value.Agility, value.Luck };
+			serializer.Serialize(writer, toList);
+		}
 	}
 
+	/// <summary>
+	/// A representation of the data RPG Maker MV saves for a Class.
+	/// </summary>
 	[DebuggerDisplay("{Name}")]
 	public class Class
 	{
+		/// <summary>
+		/// The internal ID of this Class.
+		/// </summary>
 		[JsonProperty("id")]
-		public ClassID ID { get; set; }
+		public int ID { get; set; }
 
-		[JsonProperty("expParams")]
-		public EXPParameters EXPParameters { get; set; }
-
-		[JsonProperty("traits")]
-		public IList<Trait> Traits { get; set; }
-
-		[JsonProperty("learnings")]
-		public IList<LearntSkill> LearntSkills { get; set; }
-
+		/// <summary>
+		/// The name of this Class.
+		/// </summary>
 		[JsonProperty("name")]
 		public string Name { get; set; }
 
-		[JsonProperty("note")]
-		public string Note { get; set; }
+		#region Class Data
 
+		/// <summary>
+		/// The parameters this Class uses for its EXP Curve.
+		/// </summary>
+		[JsonProperty("expParams")]
+		public EXPParameters EXPParameters { get; set; }
+
+		/// <summary>
+		/// The values this Class uses for its stat curves.
+		/// </summary>
 		[JsonProperty("params")]
 		public ParameterCurves ParameterCurves { get; set; }
+
+		/// <summary>
+		/// The Skills this Class learns and when it learns them.
+		/// </summary>
+		[JsonProperty("learnings")]
+		public IList<Learning> LearntSkills { get; set; }
+
+		/// <summary>
+		/// The set of Traits this Class has intrinsically.
+		/// </summary>
+		[JsonProperty("traits")]
+		public IList<Trait> Traits { get; set; }
+
+		#endregion Class Data
+
+		/// <summary>
+		/// This Class's Notes field.
+		/// </summary>
+		[JsonProperty("note")]
+		public string Note { get; set; }
 	}
 }

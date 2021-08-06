@@ -66,24 +66,27 @@ namespace MVDeserializer.Data
 	[DebuggerDisplay("{TroopID}")]
 	public struct MapEncounter
 	{
-		[JsonProperty("regionSet")]
-		public IList<int> Regions { get; set; }
-
 		[JsonProperty("troopId")]
-		public TroopID TroopID { get; set; }
+		public int TroopID { get; set; }
 
 		[JsonProperty("weight")]
 		public int Weight { get; set; }
+
+		[JsonIgnore]
+		public bool EntireMap => Regions.Count == 0;
+
+		[JsonProperty("regionSet")]
+		public IList<int> Regions { get; set; }
 	}
 
 	[DebuggerDisplay("{CharacterName}")]
 	public struct MapEventImage
 	{
-		[JsonProperty("characterIndex")]
-		public int CharacterIndex { get; set; }
-
 		[JsonProperty("characterName")]
 		public string CharacterName { get; set; }
+
+		[JsonProperty("characterIndex")]
+		public int CharacterIndex { get; set; }
 
 		[JsonProperty("direction")]
 		public CharacterDirection Direction { get; set; }
@@ -100,17 +103,13 @@ namespace MVDeserializer.Data
 		[JsonProperty("conditions")]
 		public MapConditions Conditions { get; set; }
 
-		[JsonProperty("directionFix")]
-		public bool DirectionFix { get; set; }
-
 		[JsonProperty("image")]
 		public MapEventImage Image { get; set; }
 
-		[JsonProperty("list")]
-		public IList<EventCommand> Commands { get; set; }
+		#region Autonomous Movement
 
-		[JsonProperty("moveFrequency")]
-		public MoveFrequency MoveFrequency { get; set; }
+		[JsonProperty("moveType")]
+		public MoveType MoveType { get; set; }
 
 		[JsonProperty("moveRoute")]
 		public MovementRoute MovementRoute { get; set; }
@@ -118,64 +117,76 @@ namespace MVDeserializer.Data
 		[JsonProperty("moveSpeed")]
 		public MoveSpeed MoveSpeed { get; set; }
 
-		[JsonProperty("moveType")]
-		public MoveType MoveType { get; set; }
+		[JsonProperty("moveFrequency")]
+		public MoveFrequency MoveFrequency { get; set; }
 
-		[JsonProperty("priorityType")]
-		public PriorityType PriorityType { get; set; }
+		#endregion Autonomous Movement
 
-		[JsonProperty("stepAnime")]
-		public bool StepAnimation { get; set; }
-
-		[JsonProperty("through")]
-		public bool Through { get; set; }
-
-		[JsonProperty("trigger")]
-		public EventTrigger Trigger { get; set; }
+		#region Options
 
 		[JsonProperty("walkAnime")]
 		public bool WalkAnimation { get; set; }
 
+		[JsonProperty("stepAnime")]
+		public bool StepAnimation { get; set; }
+
+		[JsonProperty("directionFix")]
+		public bool DirectionFix { get; set; }
+
+		[JsonProperty("through")]
+		public bool Through { get; set; }
+
+		#endregion Options
+
+		[JsonProperty("priorityType")]
+		public PriorityType PriorityType { get; set; }
+
+		[JsonProperty("trigger")]
+		public EventTrigger Trigger { get; set; }
+
+		[JsonProperty("list")]
+		public IList<EventCommand> Contents { get; set; }
+
 		public struct MapConditions
 		{
-			[JsonProperty("actorId")]
-			public ActorID ActorID { get; set; }
-
-			[JsonProperty("actorValid")]
-			public bool ActorValid { get; set; }
-
-			[JsonProperty("itemId")]
-			public ItemID ItemID { get; set; }
-
-			[JsonProperty("itemValid")]
-			public bool ItemValid { get; set; }
-
-			[JsonProperty("selfSwitchCh")]
-			public string SelfSwitchKey { get; set; }
-
-			[JsonProperty("selfSwitchValid")]
-			public bool SelfSwitchValid { get; set; }
-
-			[JsonProperty("switch1Id")]
-			public SwitchID Switch1ID { get; set; }
-
 			[JsonProperty("switch1Valid")]
 			public bool Switch1Valid { get; set; }
 
-			[JsonProperty("switch2Id")]
-			public SwitchID Switch2ID { get; set; }
+			[JsonProperty("switch1Id")]
+			public int Switch1ID { get; set; }
 
 			[JsonProperty("switch2Valid")]
 			public bool Switch2Valid { get; set; }
 
-			[JsonProperty("variableId")]
-			public VariableID VariableID { get; set; }
+			[JsonProperty("switch2Id")]
+			public int Switch2ID { get; set; }
 
 			[JsonProperty("variableValid")]
 			public bool VariableValid { get; set; }
 
+			[JsonProperty("variableId")]
+			public int VariableID { get; set; }
+
 			[JsonProperty("variableValue")]
 			public int VariableValue { get; set; }
+
+			[JsonProperty("selfSwitchValid")]
+			public bool SelfSwitchValid { get; set; }
+
+			[JsonProperty("selfSwitchCh")]
+			public string SelfSwitchKey { get; set; }
+
+			[JsonProperty("itemValid")]
+			public bool ItemValid { get; set; }
+
+			[JsonProperty("itemId")]
+			public int ItemID { get; set; }
+
+			[JsonProperty("actorValid")]
+			public bool ActorValid { get; set; }
+
+			[JsonProperty("actorId")]
+			public int ActorID { get; set; }
 		}
 	}
 
@@ -183,7 +194,7 @@ namespace MVDeserializer.Data
 	public class MapEvent
 	{
 		[JsonProperty("id")]
-		public EventID ID { get; set; }
+		public int ID { get; set; }
 
 		[JsonProperty("name")]
 		public string Name { get; set; }
@@ -204,14 +215,49 @@ namespace MVDeserializer.Data
 	[DebuggerDisplay("{MVData.Current.MapInfos[ID.ID]?.Name ?? \"null (Data exists)\"}")]
 	public class Map
 	{
+		/// <summary>
+		/// The internal ID of this Map.
+		/// </summary>
 		[JsonIgnore]
-		public MapID ID { get; set; }
+		public int ID { get; set; }
+
+		#region General Settings
+
+		[JsonIgnore]
+		public string Name => MVData.Current.MapInfos[ID].Name;
+
+		[JsonProperty("displayName")]
+		public string DisplayName { get; set; }
+
+		[JsonProperty("tilesetId")]
+		public int TilesetID { get; set; }
+
+		[JsonProperty("width")]
+		public int Width { get; set; }
+
+		[JsonProperty("height")]
+		public int Height { get; set; }
+
+		[JsonProperty("scrollType")]
+		public ScrollType ScrollType { get; set; }
+
+		[JsonProperty("encounterStep")]
+		public int EncounterSteps { get; set; }
 
 		[JsonProperty("autoplayBgm")]
 		public bool AutoplayBGM { get; set; }
 
+		[JsonProperty("bgm")]
+		public Sound BGM { get; set; }
+
 		[JsonProperty("autoplayBgs")]
 		public bool AutoplayBGS { get; set; }
+
+		[JsonProperty("bgs")]
+		public Sound BGS { get; set; }
+
+		[JsonProperty("specifyBattleback")]
+		public bool SpecifyBattleback { get; set; }
 
 		[JsonProperty("battleback1Name")]
 		public string Battleback1Name { get; set; }
@@ -219,59 +265,38 @@ namespace MVDeserializer.Data
 		[JsonProperty("battleback2Name")]
 		public string Battleback2Name { get; set; }
 
-		[JsonProperty("bgm")]
-		public Sound BGM { get; set; }
-
-		[JsonProperty("bgs")]
-		public Sound BGS { get; set; }
-
 		[JsonProperty("disableDashing")]
 		public bool DisableDashing { get; set; }
 
-		[JsonProperty("displayName")]
-		public string DisplayName { get; set; }
+		#endregion General Settings
 
-		[JsonProperty("encounterList")]
-		public IList<MapEncounter> Encounters { get; set; }
-
-		[JsonProperty("encounterStep")]
-		public int EncounterSteps { get; set; }
-
-		[JsonProperty("height")]
-		public int Height { get; set; }
-
-		[JsonProperty("note")]
-		public string Note { get; set; }
-
-		[JsonProperty("parallaxLoopX")]
-		public bool ParallaxLoopX { get; set; }
-
-		[JsonProperty("parallaxLoopY")]
-		public bool ParallaxLoopY { get; set; }
+		#region Parallax Background
 
 		[JsonProperty("parallaxName")]
 		public string ParallaxName { get; set; }
 
-		[JsonProperty("parallaxShow")]
-		public bool ParallaxShow { get; set; }
+		[JsonProperty("parallaxLoopX")]
+		public bool ParallaxLoopX { get; set; }
 
 		[JsonProperty("parallaxSx")]
 		public int ParallaxScrollX { get; set; }
 
+		[JsonProperty("parallaxLoopY")]
+		public bool ParallaxLoopY { get; set; }
+
 		[JsonProperty("parallaxSy")]
 		public int ParallaxScrollY { get; set; }
 
-		[JsonProperty("scrollType")]
-		public ScrollType ScrollType { get; set; }
+		[JsonProperty("parallaxShow")]
+		public bool ParallaxShow { get; set; }
 
-		[JsonProperty("specifyBattleback")]
-		public bool SpecifyBattleback { get; set; }
+		#endregion Parallax Background
 
-		[JsonProperty("tilesetId")]
-		public TilesetID TilesetID { get; set; }
+		[JsonProperty("note")]
+		public string Note { get; set; }
 
-		[JsonProperty("width")]
-		public int Width { get; set; }
+		[JsonProperty("encounterList")]
+		public IList<MapEncounter> Encounters { get; set; }
 
 		[JsonProperty("data")]
 		public IList<int?> Data { get; set; }
@@ -279,4 +304,50 @@ namespace MVDeserializer.Data
 		[JsonProperty("events")]
 		public List<MapEvent> Events { get; set; }
 	}
+
+	//public struct MapData
+	//{
+	//	public const int TileID_B = 0;
+	//	public const int TileID_C = 256;
+	//	public const int TileID_D = 512;
+	//	public const int TileID_E = 768;
+	//	public const int TileID_A5 = 1536;
+	//	public const int TileID_A1 = 2048;
+	//	public const int TileID_A2 = 2816;
+	//	public const int TileID_A3 = 4352;
+	//	public const int TileID_A4 = 5888;
+	//	public const int TileID_Max = 8192;
+
+	//	public int Data { get; set; }
+
+	//	public MapData(int data)
+	//	{
+	//		Data = data;
+	//	}
+
+	//	public bool IsVisible => Data > 0 && Data < TileID_Max;
+	//	public bool IsAutotile => Data >= TileID_A1;
+	//	// GetAutotileKind
+	//	// GetAutotileShape
+
+	//	public int MakeAutotileID(int kind, int shape)
+	//	{
+	//		return TileID_A1 + (kind * 48) + shape;
+	//	}
+	//}
+
+	//public class MapDataConverter : JsonConverter
+	//{
+	//	public override bool CanConvert(Type objectType)
+	//	{
+	//		return objectType == typeof(int);
+	//	}
+
+	//	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+	//	{
+	//		throw new NotImplementedException();
+	//	}
+
+	//	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
+	//}
 }
