@@ -53,7 +53,7 @@ namespace MVDeserializer.Data
 		/// The Skill to perform if conditions are met.
 		/// </summary>
 		[JsonProperty("skillId")]
-		public int SkillID { get; set; }
+		public int SkillId { get; set; }
 
 		[JsonProperty("rating")]
 		public int Rating { get; set; }
@@ -80,7 +80,7 @@ namespace MVDeserializer.Data
 		/// The internal ID of the dropped item. Can be an Item, Weapon, or Armor.
 		/// </summary>
 		[JsonProperty("dataId")]
-		public int DataID { get; set; }
+		public int DataId { get; set; }
 
 		/// <summary>
 		/// The denominator of the drop chance. Drop chance is 1/Denominator.
@@ -90,7 +90,7 @@ namespace MVDeserializer.Data
 
 		public override string ToString()
 		{
-			return Kind == ItemDropKind.None ? "None" : $"{DataID}, 1 / {Denominator} chance";
+			return Kind == ItemDropKind.None ? "None" : $"{DataId}, 1 / {Denominator} chance";
 		}
 	}
 
@@ -104,7 +104,7 @@ namespace MVDeserializer.Data
 		/// The internal ID of this Enemy.
 		/// </summary>
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		#region General Settings
 

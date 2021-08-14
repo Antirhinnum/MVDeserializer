@@ -47,29 +47,27 @@ namespace MVDeserializer.Data
 	public class Tileset
 	{
 		[JsonProperty("id")]
-		public TilesetID ID { get; set; }
-
-		[JsonProperty("flags")]
-		public IList<TilesetFlag> Flags { get; set; }
-
-		[JsonProperty("mode")]
-		public TilesetMode Mode { get; set; }
+		public int Id { get; set; }
 
 		[JsonProperty("name")]
 		public string Name { get; set; }
 
-		[JsonProperty("note")]
-		public string Note { get; set; }
+		[JsonProperty("mode")]
+		public TilesetMode Mode { get; set; }
 
 		[JsonProperty("tilesetNames")]
 		public TilesetNames TilesetNames { get; set; }
+
+		[JsonProperty("flags")]
+		public IList<TilesetFlag> Flags { get; set; }
+
+		[JsonProperty("note")]
+		public string Note { get; set; }
 	}
 
-	public class TilesetNamesConverter : JsonConverter
+	public class TilesetNamesConverter : JsonConverter<TilesetNames>
 	{
-		public override bool CanConvert(Type objectType) => objectType == typeof(TilesetNames);
-
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override TilesetNames ReadJson(JsonReader reader, Type objectType, TilesetNames existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
 			IList<string> names = serializer.Deserialize<IList<string>>(reader);
 			return new TilesetNames()
@@ -86,32 +84,13 @@ namespace MVDeserializer.Data
 			};
 		}
 
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
+		public override void WriteJson(JsonWriter writer, TilesetNames value, JsonSerializer serializer)
+		{
+			IList<string> toList = new List<string>() 
+			{ 
+				value.A1, value.A2, value.A3, value.A4, value.A5, value.B, value.C, value.D, value.E
+			};
+			serializer.Serialize(writer, toList);
+		}
 	}
-
-	//public struct TilesetFlag
-	//{
-	//	public short Flag { get; set; }
-
-	//	public bool ImpassableDownward => (Flag & 0x0001) == 0x0001;
-	//	public bool ImpassableLeftward => (Flag & 0x0002) == 0x0002;
-	//}
-
-	//public class TilesetFlagSerializer : JsonConverter
-	//{
-	//	public override bool CanConvert(Type objectType)
-	//	{
-	//		return objectType == typeof(IList<TilesetFlag>);
-	//	}
-
-	//	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-
-	//	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-	//}
 }

@@ -150,13 +150,9 @@ namespace MVDeserializer.Data
 		public int? Indent { get; set; }
 	}
 
-	//[JsonConverter(typeof(SoundConverter))]
 	[DebuggerDisplay("{Name} ({Volume}, {Pitch}, {Pan})")]
 	public class Sound
 	{
-		//[JsonIgnore]
-		//public SoundType SoundType { get; set; }
-
 		[JsonProperty("name")]
 		public string Name { get; set; }
 
@@ -169,28 +165,6 @@ namespace MVDeserializer.Data
 		[JsonProperty("volume")]
 		public int Volume { get; set; }
 	}
-
-	//public class SoundConverter : JsonConverter
-	//{
-	//	public override bool CanConvert(Type objectType)
-	//	{
-	//		return objectType == typeof(AnimationCell);
-	//	}
-
-	//	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-	//	{
-	//		JToken t = JToken.FromObject(existingValue);
-	//		((JObject)t).prop
-
-	//		Sound sound = serializer.Deserialize<Sound>(reader);
-	//		sound.SoundType =
-	//	}
-
-	//	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-	//}
 
 	public class ColorConverter : JsonConverter<Color>
 	{

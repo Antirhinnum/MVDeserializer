@@ -40,7 +40,7 @@ namespace MVDeserializer.Data
 	}
 
 	/// <summary>
-	/// A set of information about an animation frame's flashes and sound effects.
+	/// A set of information about an Animation frame's flashes and sound effects.
 	/// </summary>
 	public struct AnimationTiming
 	{
@@ -158,7 +158,7 @@ namespace MVDeserializer.Data
 		/// The internal ID of this Animation.
 		/// </summary>
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		/// <summary>
 		/// The name of this Animation.

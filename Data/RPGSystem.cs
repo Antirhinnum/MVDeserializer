@@ -26,7 +26,7 @@ namespace MVDeserializer.Data
 		public string CharacterImageName { get; set; }
 
 		[JsonProperty("startMapId")]
-		public int StartMapID { get; set; }
+		public int StartMapId { get; set; }
 
 		[JsonProperty("startX")]
 		public int StartX { get; set; }
@@ -47,14 +47,14 @@ namespace MVDeserializer.Data
 		public bool SaveCommand { get; set; }
 	}
 
-	[DebuggerDisplay("{Type} with {WeaponImageID}")]
+	[DebuggerDisplay("{Type} with {WeaponImageId}")]
 	public struct AttackMotion
 	{
 		[JsonProperty("type")]
 		public AttackMotionType Type { get; set; }
 
 		[JsonProperty("weaponImageId")]
-		public WeaponTypeID WeaponImageID { get; set; }
+		public int WeaponImageId { get; set; }
 	}
 
 	[DebuggerDisplay("Count = 23")]
@@ -321,11 +321,9 @@ namespace MVDeserializer.Data
 			public string Victory { get; set; }
 		}
 
-		public class BasicTermsConverter : JsonConverter
+		public class BasicTermsConverter : JsonConverter<BasicTerms>
 		{
-			public override bool CanConvert(Type objectType) => objectType == typeof(BasicTerms);
-
-			public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+			public override BasicTerms ReadJson(JsonReader reader, Type objectType, BasicTerms existingValue, bool hasExistingValue, JsonSerializer serializer)
 			{
 				IList<string> terms = serializer.Deserialize<IList<string>>(reader);
 				return new BasicTerms()
@@ -343,14 +341,28 @@ namespace MVDeserializer.Data
 				};
 			}
 
-			public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
+			public override void WriteJson(JsonWriter writer, BasicTerms value, JsonSerializer serializer)
+			{
+				IList<string> toList = new List<string>
+				{
+					value.Level,
+					value.LevelAbbreviated,
+					value.HP,
+					value.HPAbbreviated,
+					value.MP,
+					value.MPAbbreviated,
+					value.TP,
+					value.TPAbbreviated,
+					value.EXP,
+					value.EXPAbbreviated
+				};
+				serializer.Serialize(writer, toList);
+			}
 		}
 
-		public class CommandTermsConverter : JsonConverter
+		public class CommandTermsConverter : JsonConverter<CommandTerms>
 		{
-			public override bool CanConvert(Type objectType) => objectType == typeof(CommandTerms);
-
-			public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+			public override CommandTerms ReadJson(JsonReader reader, Type objectType, CommandTerms existingValue, bool hasExistingValue, JsonSerializer serializer)
 			{
 				IList<string> terms = serializer.Deserialize<IList<string>>(reader);
 				return new CommandTerms()
@@ -384,14 +396,44 @@ namespace MVDeserializer.Data
 				};
 			}
 
-			public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
+			public override void WriteJson(JsonWriter writer, CommandTerms value, JsonSerializer serializer)
+			{
+				IList<string> toList = new List<string>
+				{
+					value.Fight,
+					value.Escape,
+					value.Attack,
+					value.Guard,
+					value.Item,
+					value.Skill,
+					value.Equip,
+					value.Status,
+					value.Formation,
+					value.Save,
+					value.GameEnd,
+					value.Options,
+					value.Weapon,
+					value.Armor,
+					value.KeyItem,
+					value.UnusedEquip,
+					value.Optimize,
+					value.Clear,
+					value.NewGame,
+					value.Continue,
+					value.Unused1,
+					value.ToTitle,
+					value.Cancel,
+					value.Unused2,
+					value.Buy,
+					value.Sell,
+				};
+				serializer.Serialize(writer, toList);
+			}
 		}
 
-		public class ParameterTermsConverter : JsonConverter
+		public class ParameterTermsConverter : JsonConverter<ParameterTerms>
 		{
-			public override bool CanConvert(Type objectType) => objectType == typeof(ParameterTerms);
-
-			public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+			public override ParameterTerms ReadJson(JsonReader reader, Type objectType, ParameterTerms existingValue, bool hasExistingValue, JsonSerializer serializer)
 			{
 				IList<string> terms = serializer.Deserialize<IList<string>>(reader);
 				return new ParameterTerms()
@@ -409,14 +451,29 @@ namespace MVDeserializer.Data
 				};
 			}
 
-			public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
+			public override void WriteJson(JsonWriter writer, ParameterTerms value, JsonSerializer serializer)
+			{
+				IList<string> toList = new List<string>
+				{
+					value.MaxHP,
+					value.MaxMP,
+					value.Attack,
+					value.Defense,
+					value.MagicAttack,
+					value.MagicDefense,
+					value.Agility,
+					value.Luck,
+					value.HitRate,
+					value.EvasionRate
+				};
+			}
 		}
 	}
 
 	public struct TestBattler
 	{
 		[JsonProperty("actorId")]
-		public ActorID ActorID { get; set; }
+		public int ActorId { get; set; }
 
 		[JsonProperty("equips")]
 		public IList<int> Equipment { get; set; }
@@ -425,11 +482,9 @@ namespace MVDeserializer.Data
 		public int Level { get; set; }
 	}
 
-	public class MenuCommandTogglesConverter : JsonConverter
+	public class MenuCommandTogglesConverter : JsonConverter<MenuCommandToggles>
 	{
-		public override bool CanConvert(Type objectType) => objectType == typeof(MenuCommandToggles);
-
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override MenuCommandToggles ReadJson(JsonReader reader, Type objectType, MenuCommandToggles existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
 			IList<bool> toggles = serializer.Deserialize<IList<bool>>(reader);
 			return new MenuCommandToggles()
@@ -443,17 +498,19 @@ namespace MVDeserializer.Data
 			};
 		}
 
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
+		public override void WriteJson(JsonWriter writer, MenuCommandToggles value, JsonSerializer serializer)
+		{
+			IList<bool> toList = new List<bool>
+			{
+				value.ItemCommand, value.SkillCommand, value.EquipCommand, value.StatusCommand, value.FormationCommand, value.SaveCommand
+			};
+			serializer.Serialize(writer, toList);
+		}
 	}
 
-	public class SoundsConverter : JsonConverter
+	public class SoundsConverter : JsonConverter<Sounds>
 	{
-		public override bool CanConvert(Type objectType)
-		{
-			return objectType == typeof(Sounds);
-		}
-
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override Sounds ReadJson(JsonReader reader, Type objectType, Sounds existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
 			IList<Sound> sounds = serializer.Deserialize<IList<Sound>>(reader);
 			return new Sounds()
@@ -484,62 +541,91 @@ namespace MVDeserializer.Data
 			};
 		}
 
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, Sounds value, JsonSerializer serializer)
 		{
-			throw new NotImplementedException();
+			IList<Sound> toList = new List<Sound>
+			{
+				value.Cursor,
+				value.OK,
+				value.Cancel,
+				value.Buzzer,
+				value.Equip,
+				value.Save,
+				value.Load,
+				value.BattleStart,
+				value.Escape,
+				value.EnemyAttack,
+				value.EnemyDamage,
+				value.BossCollapse1,
+				value.BossCollapse2,
+				value.ActorDamage,
+				value.ActorCollapse,
+				value.Recovery,
+				value.Miss,
+				value.Evasion,
+				value.MagicEvasion,
+				value.MagicReflection,
+				value.Shop,
+				value.UseItem,
+				value.UseSkill
+			};
+			serializer.Serialize(writer, toList);
 		}
 	}
 
 	[DebuggerDisplay("{GameTitle}")]
 	public class RPGSystem
 	{
-		[JsonProperty("airship")]
-		public VehicleData Airship { get; set; }
-
-		[JsonProperty("armorTypes")]
-		public IList<string> ArmorTypes { get; set; }
-
-		[JsonProperty("attackMotions")]
-		public IList<AttackMotion> AttackMotions { get; set; }
-
-		[JsonProperty("battleBgm")]
-		public Sound BattleBGM { get; set; }
-
-		[JsonProperty("battleback1Name")]
-		public string Battleback1Name { get; set; }
-
-		[JsonProperty("battleback2Name")]
-		public string Battleback2Name { get; set; }
-
-		[JsonProperty("battlerHue")]
-		public int BattlerHue { get; set; }
-
-		[JsonProperty("boat")]
-		public VehicleData Boat { get; set; }
-
-		[JsonProperty("currencyUnit")]
-		public string CurrencyUnit { get; set; }
-
-		[JsonProperty("defeatMe")]
-		public Sound DefeatME { get; set; }
-
-		[JsonProperty("editMapId")]
-		public int EditMapID { get; set; }
-
-		[JsonProperty("elements")]
-		public IList<string> Elements { get; set; }
-
-		[JsonProperty("equipTypes")]
-		public IList<string> EquipTypes { get; set; }
+		[JsonProperty("partyMembers")]
+		public IList<int> StartingParty { get; set; }
 
 		[JsonProperty("gameTitle")]
 		public string GameTitle { get; set; }
 
-		[JsonProperty("gameoverMe")]
-		public Sound GameOverME { get; set; }
+		[JsonProperty("currencyUnit")]
+		public string Currency { get; set; }
 
-		[JsonProperty("locale")]
-		public string Locale { get; set; }
+		#region Vehicle Images
+
+		[JsonProperty("boat")]
+		public VehicleData Boat { get; set; }
+
+		[JsonProperty("ship")]
+		public VehicleData Ship { get; set; }
+
+		[JsonProperty("airship")]
+		public VehicleData Airship { get; set; }
+
+		#endregion Vehicle Images
+
+		[JsonConverter(typeof(ColorConverter))]
+		[JsonProperty("windowTone")]
+		public Color WindowColor { get; set; }
+
+		#region Options
+
+		[JsonProperty("optSideView")]
+		public bool ViewSideViewBattle { get; set; }
+
+		[JsonProperty("optTransparent")]
+		public bool StartTransparent { get; set; }
+
+		[JsonProperty("optFollowers")]
+		public bool ShowPlayerFollowers { get; set; }
+
+		[JsonProperty("optSlipDeath")]
+		public bool KnockoutBySlipDamage { get; set; }
+
+		[JsonProperty("optFloorDeath")]
+		public bool KnockoutByFloorDamage { get; set; }
+
+		[JsonProperty("optDisplayTp")]
+		public bool DisplayTPInBattle { get; set; }
+
+		[JsonProperty("optExtraExp")]
+		public bool EXPForReserveMembers { get; set; }
+
+		#endregion Options
 
 		/// <summary>
 		/// A list of all user-defined Skill Types that are considered to be magic. See <see cref="SkillTypes"/>
@@ -547,47 +633,38 @@ namespace MVDeserializer.Data
 		[JsonProperty("magicSkills")]
 		public IList<int> MagicSkillTypes { get; set; }
 
-		[JsonProperty("menuCommands")]
-		public MenuCommandToggles MenuCommandToggles { get; set; }
+		#region Music
 
-		[JsonProperty("optDisplayTp")]
-		public bool DisplayTPInBattle { get; set; }
+		[JsonProperty("titleBgm")]
+		public Sound TitleBGM { get; set; }
 
-		[JsonProperty("optDrawTitle")]
-		public bool DrawGameTitle { get; set; }
+		[JsonProperty("battleBgm")]
+		public Sound BattleBGM { get; set; }
 
-		[JsonProperty("optExtraExp")]
-		public bool EXPForReserveMembers { get; set; }
+		[JsonProperty("victoryMe")]
+		public Sound VictoryME { get; set; }
 
-		[JsonProperty("optFloorDeath")]
-		public bool KnockoutByFloorDamage { get; set; }
+		[JsonProperty("defeatMe")]
+		public Sound DefeatME { get; set; }
 
-		[JsonProperty("optFollowers")]
-		public bool ShowPlayerFollowers { get; set; }
+		[JsonProperty("gameoverMe")]
+		public Sound GameOverME { get; set; }
 
-		[JsonProperty("optSideView")]
-		public bool ViewSideViewBattle { get; set; }
-
-		[JsonProperty("optSlipDeath")]
-		public bool KnockoutBySlipDamage { get; set; }
-
-		[JsonProperty("optTransparent")]
-		public bool StartTransparent { get; set; }
-
-		[JsonProperty("partyMembers")]
-		public IList<ActorID> PartyMembers { get; set; }
-
-		[JsonProperty("ship")]
-		public VehicleData Ship { get; set; }
-
-		[JsonProperty("skillTypes")]
-		public IList<string> SkillTypes { get; set; }
+		#endregion Music
 
 		[JsonProperty("sounds")]
 		public Sounds Sounds { get; set; }
 
+		[JsonProperty("menuCommands")]
+		public MenuCommandToggles MenuCommands { get; set; }
+
+		[JsonProperty("attackMotions")]
+		public IList<AttackMotion> AttackMotions { get; set; }
+
+		#region Starting Positions
+
 		[JsonProperty("startMapId")]
-		public int StartMapID { get; set; }
+		public int StartMapId { get; set; }
 
 		[JsonProperty("startMapX")]
 		public int StartMapX { get; set; }
@@ -595,17 +672,9 @@ namespace MVDeserializer.Data
 		[JsonProperty("startMapY")]
 		public int StartMapY { get; set; }
 
-		[JsonProperty("switches")]
-		public IList<string> Switches { get; set; }
+		#endregion Starting Positions
 
-		[JsonProperty("terms")]
-		public Terms Terms { get; set; }
-
-		[JsonProperty("testBattlers")]
-		public IList<TestBattler> TestBattlers { get; set; }
-
-		[JsonProperty("testTroopId")]
-		public TroopID TestTroopID { get; set; }
+		#region Title Screen
 
 		[JsonProperty("title1Name")]
 		public string Title1Name { get; set; }
@@ -613,28 +682,72 @@ namespace MVDeserializer.Data
 		[JsonProperty("title2Name")]
 		public string Title2Name { get; set; }
 
-		[JsonProperty("titleBgm")]
-		public Sound TitleBGM { get; set; }
+		[JsonProperty("optDrawTitle")]
+		public bool DrawGameTitle { get; set; }
+
+		#endregion Title Screen
+
+		#region Types
+
+		[JsonProperty("elements")]
+		public IList<string> Elements { get; set; }
+
+		[JsonProperty("skillTypes")]
+		public IList<string> SkillTypes { get; set; }
+
+		[JsonProperty("weaponTypes")]
+		public IList<string> WeaponTypes { get; set; }
+
+		[JsonProperty("armorTypes")]
+		public IList<string> ArmorTypes { get; set; }
+
+		[JsonProperty("equipTypes")]
+		public IList<string> EquipTypes { get; set; }
+
+		#endregion Types
+
+		[JsonProperty("terms")]
+		public Terms Terms { get; set; }
+
+		#region Metadata
+
+		[JsonProperty("editMapId")]
+		public int EditMapId { get; set; }
+
+		[JsonProperty("locale")]
+		public string Locale { get; set; }
+
+		[JsonProperty("switches")]
+		public IList<string> Switches { get; set; }
 
 		[JsonProperty("variables")]
 		public IList<string> Variables { get; set; }
 
 		[JsonProperty("versionId")]
-		public int VersionID { get; set; }
+		public int VersionId { get; set; }
 
-		[JsonProperty("victoryMe")]
-		public Sound VictoryME { get; set; }
+		#endregion Metadata
 
-		[JsonProperty("weaponTypes")]
-		public IList<string> WeaponTypes { get; set; }
+		#region Troop Testing
 
-		[JsonConverter(typeof(ColorConverter))]
-		[JsonProperty("windowTone")]
-		public Color WindowTone { get; set; }
+		[JsonProperty("testBattlers")]
+		public IList<TestBattler> TestBattlers { get; set; }
+
+		[JsonProperty("testTroopId")]
+		public int TestTroopId { get; set; }
+
+		[JsonProperty("battleback1Name")]
+		public string Battleback1Name { get; set; }
+
+		[JsonProperty("battleback2Name")]
+		public string Battleback2Name { get; set; }
+
+		/// <summary>
+		/// Note: Unused.
+		/// </summary>
+		[JsonProperty("battlerHue")]
+		public int BattlerHue { get; set; }
+
+		#endregion Troop Testing
 	}
-
-	//public class GameSystem
-	//{
-
-	//}
 }

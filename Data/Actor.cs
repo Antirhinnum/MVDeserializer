@@ -14,7 +14,7 @@ namespace MVDeserializer.Data
 		/// This Actor's internal ID.
 		/// </summary>
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		#region General Settings
 
@@ -35,7 +35,7 @@ namespace MVDeserializer.Data
 		/// See <see cref="Class"/>.
 		/// </summary>
 		[JsonProperty("classId")]
-		public int ClassID { get; set; }
+		public int ClassId { get; set; }
 
 		/// <summary>
 		/// The level this Actor starts at.

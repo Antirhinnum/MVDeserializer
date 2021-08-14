@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace MVDeserializer.Data
 {
-	public enum ItemTypeID
+	public enum ItemTypeId
 	{
 		Regular,
 		Key,
@@ -22,7 +22,7 @@ namespace MVDeserializer.Data
 		/// The internal ID of this Item.
 		/// </summary>
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		#region General Settings
 
@@ -48,7 +48,7 @@ namespace MVDeserializer.Data
 		/// The type of Item this is.
 		/// </summary>
 		[JsonProperty("itypeId")]
-		public ItemTypeID ItemTypeID { get; set; }
+		public ItemTypeId ItemTypeId { get; set; }
 
 		/// <summary>
 		/// The default price of this Item.
@@ -112,7 +112,7 @@ namespace MVDeserializer.Data
 		/// The internal ID of the Animation to play when using this Item.
 		/// </summary>
 		[JsonProperty("animationId")]
-		public int AnimationID { get; set; }
+		public int AnimationId { get; set; }
 
 		#endregion Invocation
 

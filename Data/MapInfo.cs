@@ -7,7 +7,7 @@ namespace MVDeserializer.Data
 	public class MapInfo
 	{
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		[JsonProperty("expanded")]
 		public bool Expanded { get; set; }
@@ -19,7 +19,7 @@ namespace MVDeserializer.Data
 		public int Order { get; set; }
 
 		[JsonProperty("parentId")]
-		public int ParentID { get; set; }
+		public int ParentId { get; set; }
 
 		[JsonProperty("scrollX")]
 		public float ScrollX { get; set; }

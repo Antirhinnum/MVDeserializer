@@ -47,7 +47,7 @@ namespace MVDeserializer.Data
 	public class State
 	{
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		#region General Settings
 
@@ -118,12 +118,15 @@ namespace MVDeserializer.Data
 
 		#endregion Messages
 
-		[JsonProperty("note")]
-		public string Note { get; set; }
-
 		[JsonProperty("traits")]
 		public IList<Trait> Traits { get; set; }
 
+		[JsonProperty("note")]
+		public string Note { get; set; }
+
+		/// <summary>
+		/// Note: Unused?
+		/// </summary>
 		[JsonProperty("releaseByDamage")]
 		public bool ReleasebyDamage { get; set; }
 	}

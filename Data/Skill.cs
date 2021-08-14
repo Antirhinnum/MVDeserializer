@@ -8,7 +8,7 @@ namespace MVDeserializer.Data
 	public class Skill
 	{
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		#region General Settings
 
@@ -25,7 +25,7 @@ namespace MVDeserializer.Data
 		/// See <see cref="RPGSystem.SkillTypes"/>.
 		/// </summary>
 		[JsonProperty("stypeId")]
-		public int SkillTypeID { get; set; }
+		public int SkillTypeId { get; set; }
 
 		[JsonProperty("mpCost")]
 		public int MPCost { get; set; }
@@ -59,7 +59,7 @@ namespace MVDeserializer.Data
 		public HitType HitType { get; set; }
 
 		[JsonProperty("animationId")]
-		public int AnimationID { get; set; }
+		public int AnimationId { get; set; }
 
 		#endregion Invocation
 
@@ -76,10 +76,10 @@ namespace MVDeserializer.Data
 		#region Required Weapon
 
 		[JsonProperty("requiredWtypeId1")]
-		public int RequiredWeaponTypeID1 { get; set; }
+		public int RequiredWeaponTypeId1 { get; set; }
 
 		[JsonProperty("requiredWtypeId2")]
-		public int RequiredWeaponTypeID2 { get; set; }
+		public int RequiredWeaponTypeId2 { get; set; }
 
 		#endregion Required Weapon
 

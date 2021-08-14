@@ -27,7 +27,7 @@ namespace MVDeserializer.Data
 		public EffectCode Code { get; set; }
 
 		[JsonProperty("dataId")]
-		public int DataID { get; set; }
+		public int DataId { get; set; }
 
 		[JsonProperty("value1")]
 		public float Value1 { get; set; }

@@ -38,7 +38,7 @@ namespace MVDeserializer.Data
 		public TraitCode Code { get; set; }
 
 		[JsonProperty("dataId")]
-		public int DataID { get; set; }
+		public int DataId { get; set; }
 
 		[JsonProperty("value")]
 		public float Value { get; set; }

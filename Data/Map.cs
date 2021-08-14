@@ -63,11 +63,11 @@ namespace MVDeserializer.Data
 		Parallel = 4
 	}
 
-	[DebuggerDisplay("{TroopID}")]
+	[DebuggerDisplay("{TroopId}")]
 	public struct MapEncounter
 	{
 		[JsonProperty("troopId")]
-		public int TroopID { get; set; }
+		public int TroopId { get; set; }
 
 		[JsonProperty("weight")]
 		public int Weight { get; set; }
@@ -95,7 +95,7 @@ namespace MVDeserializer.Data
 		public int Pattern { get; set; }
 
 		[JsonProperty("tileId")]
-		public int TileID { get; set; }
+		public int TileId { get; set; }
 	}
 
 	public struct MapPage
@@ -153,19 +153,19 @@ namespace MVDeserializer.Data
 			public bool Switch1Valid { get; set; }
 
 			[JsonProperty("switch1Id")]
-			public int Switch1ID { get; set; }
+			public int Switch1Id { get; set; }
 
 			[JsonProperty("switch2Valid")]
 			public bool Switch2Valid { get; set; }
 
 			[JsonProperty("switch2Id")]
-			public int Switch2ID { get; set; }
+			public int Switch2Id { get; set; }
 
 			[JsonProperty("variableValid")]
 			public bool VariableValid { get; set; }
 
 			[JsonProperty("variableId")]
-			public int VariableID { get; set; }
+			public int VariableId { get; set; }
 
 			[JsonProperty("variableValue")]
 			public int VariableValue { get; set; }
@@ -180,13 +180,13 @@ namespace MVDeserializer.Data
 			public bool ItemValid { get; set; }
 
 			[JsonProperty("itemId")]
-			public int ItemID { get; set; }
+			public int ItemId { get; set; }
 
 			[JsonProperty("actorValid")]
 			public bool ActorValid { get; set; }
 
 			[JsonProperty("actorId")]
-			public int ActorID { get; set; }
+			public int ActorId { get; set; }
 		}
 	}
 
@@ -194,7 +194,7 @@ namespace MVDeserializer.Data
 	public class MapEvent
 	{
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		[JsonProperty("name")]
 		public string Name { get; set; }
@@ -212,25 +212,25 @@ namespace MVDeserializer.Data
 		public int Y { get; set; }
 	}
 
-	[DebuggerDisplay("{MVData.Current.MapInfos[ID.ID]?.Name ?? \"null (Data exists)\"}")]
+	[DebuggerDisplay("{MVData.Current.MapInfos[Id]?.Name ?? \"null (Data exists)\"}")]
 	public class Map
 	{
 		/// <summary>
 		/// The internal ID of this Map.
 		/// </summary>
 		[JsonIgnore]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		#region General Settings
 
 		[JsonIgnore]
-		public string Name => MVData.Current.MapInfos[ID].Name;
+		public string Name => MVData.Current.MapInfos[Id].Name;
 
 		[JsonProperty("displayName")]
 		public string DisplayName { get; set; }
 
 		[JsonProperty("tilesetId")]
-		public int TilesetID { get; set; }
+		public int TilesetId { get; set; }
 
 		[JsonProperty("width")]
 		public int Width { get; set; }
@@ -304,50 +304,4 @@ namespace MVDeserializer.Data
 		[JsonProperty("events")]
 		public List<MapEvent> Events { get; set; }
 	}
-
-	//public struct MapData
-	//{
-	//	public const int TileID_B = 0;
-	//	public const int TileID_C = 256;
-	//	public const int TileID_D = 512;
-	//	public const int TileID_E = 768;
-	//	public const int TileID_A5 = 1536;
-	//	public const int TileID_A1 = 2048;
-	//	public const int TileID_A2 = 2816;
-	//	public const int TileID_A3 = 4352;
-	//	public const int TileID_A4 = 5888;
-	//	public const int TileID_Max = 8192;
-
-	//	public int Data { get; set; }
-
-	//	public MapData(int data)
-	//	{
-	//		Data = data;
-	//	}
-
-	//	public bool IsVisible => Data > 0 && Data < TileID_Max;
-	//	public bool IsAutotile => Data >= TileID_A1;
-	//	// GetAutotileKind
-	//	// GetAutotileShape
-
-	//	public int MakeAutotileID(int kind, int shape)
-	//	{
-	//		return TileID_A1 + (kind * 48) + shape;
-	//	}
-	//}
-
-	//public class MapDataConverter : JsonConverter
-	//{
-	//	public override bool CanConvert(Type objectType)
-	//	{
-	//		return objectType == typeof(int);
-	//	}
-
-	//	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-
-	//	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
-	//}
 }

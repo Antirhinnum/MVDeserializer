@@ -30,7 +30,7 @@ namespace MVDeserializer.Data
 		/// The element this damage is. See <see cref="RPGSystem.Elements"/>.
 		/// </summary>
 		[JsonProperty("elementId")]
-		public int ElementID { get; set; }
+		public int ElementId { get; set; }
 
 		/// <summary>
 		/// The formula used for calculating damage.

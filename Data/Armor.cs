@@ -14,7 +14,7 @@ namespace MVDeserializer.Data
 		/// The internal ID of this Armor.
 		/// </summary>
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		#region General Settings
 
@@ -41,7 +41,7 @@ namespace MVDeserializer.Data
 		/// See <see cref="RPGSystem.ArmorTypes"/>.
 		/// </summary>
 		[JsonProperty("atypeId")]
-		public int ArmorTypeID { get; set; }
+		public int ArmorTypeId { get; set; }
 
 		/// <summary>
 		/// The default price of this Armor.
@@ -54,7 +54,7 @@ namespace MVDeserializer.Data
 		/// See <see cref="RPGSystem.EquipTypes"/>.
 		/// </summary>
 		[JsonProperty("etypeId")]
-		public EquipmentTypeID EquipmentTypeID { get; set; }
+		public int EquipmentTypeId { get; set; }
 
 		#endregion General Settings
 

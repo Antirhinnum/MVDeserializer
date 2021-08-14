@@ -27,10 +27,10 @@ namespace MVDeserializer.Data
 		/// The internal ID of the Skill to learn.
 		/// </summary>
 		[JsonProperty("skillId")]
-		public int SkillID { get; set; }
+		public int SkillId { get; set; }
 
 		/// <summary>
-		/// The level <see cref="SkillID"/> is learned at.
+		/// The level <see cref="SkillId"/> is learned at.
 		/// </summary>
 		[JsonProperty("level")]
 		public int Level { get; set; }
@@ -115,7 +115,7 @@ namespace MVDeserializer.Data
 		/// The internal ID of this Class.
 		/// </summary>
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		/// <summary>
 		/// The name of this Class.

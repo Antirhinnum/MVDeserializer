@@ -15,12 +15,12 @@ namespace MVDeserializer.Data
 		None = 0,
 
 		/// <summary>
-		/// This Common Event will pause the game and run as long as <see cref="CommonEvent.SwitchID"/> is ON.
+		/// This Common Event will pause the game and run as long as <see cref="CommonEvent.SwitchId"/> is ON.
 		/// </summary>
 		Autorun = 1,
 
 		/// <summary>
-		/// This Common Event will run as long as <see cref="CommonEvent.SwitchID"/> is ON. The game will not pause.
+		/// This Common Event will run as long as <see cref="CommonEvent.SwitchId"/> is ON. The game will not pause.
 		/// </summary>
 		Parallel = 2
 	}
@@ -35,7 +35,7 @@ namespace MVDeserializer.Data
 		/// The internal ID of this Common Event.
 		/// </summary>
 		[JsonProperty("id")]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		/// <summary>
 		/// The name of this CommonEvent.
@@ -55,7 +55,7 @@ namespace MVDeserializer.Data
 		/// The Switch that this Common Event triggers off of.
 		/// </summary>
 		[JsonProperty("switchId")]
-		public int SwitchID { get; set; }
+		public int SwitchId { get; set; }
 
 		#endregion Trigger
 

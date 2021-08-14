@@ -58,7 +58,6 @@ namespace MVDeserializer
 
 			data.MapInfos = JsonConvert.DeserializeObject<IList<MapInfo>>(File.ReadAllText(Path.Combine(dataPath, "MapInfos.json")));
 			data.Tilesets = JsonConvert.DeserializeObject<IList<Tileset>>(File.ReadAllText(Path.Combine(dataPath, "Tilesets.json")));
-
 			data.Maps = new Map[data.MapInfos.Count];
 			foreach (string filePath in Directory.GetFiles(dataPath))
 			{
@@ -70,8 +69,8 @@ namespace MVDeserializer
 
 				int mapNumber = int.Parse(fileName.Substring(3, 3));
 				data.Maps[mapNumber] = JsonConvert.DeserializeObject<Map>(File.ReadAllText(filePath));
-				data.Maps[mapNumber].ID = new MapID(mapNumber);
-				data.Maps[mapNumber].Events.ForEach(ev => { if (ev != null) ev.ID.MapID = new MapID(mapNumber); });
+				data.Maps[mapNumber].Id = mapNumber;
+				data.Maps[mapNumber].Events.ForEach(ev => { if (ev != null) ev.Id = mapNumber; });
 			}
 			data.Maps = data.Maps.ToList();
 
