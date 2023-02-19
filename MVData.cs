@@ -62,7 +62,7 @@ namespace MVDeserializer
 			foreach (string filePath in Directory.GetFiles(dataPath))
 			{
 				string fileName = Path.GetFileName(filePath);
-				if (!fileName.StartsWith("Map") || fileName.StartsWith("MapI"))
+				if (!fileName.StartsWith("Map") || fileName.StartsWith("MapI") || fileName.StartsWith("MapH"))
 				{
 					continue;
 				}

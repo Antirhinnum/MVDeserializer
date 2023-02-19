@@ -466,6 +466,7 @@ namespace MVDeserializer.Data
 					value.HitRate,
 					value.EvasionRate
 				};
+				serializer.Serialize(writer, toList);
 			}
 		}
 	}
