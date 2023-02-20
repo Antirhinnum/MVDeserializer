@@ -664,13 +664,13 @@ namespace MVDeserializer.Data
 
 		#region Starting Positions
 
-		[JsonProperty("startMapId")]
+		[JsonProperty("startId")]
 		public int StartMapId { get; set; }
 
-		[JsonProperty("startMapX")]
+		[JsonProperty("startX")]
 		public int StartMapX { get; set; }
 
-		[JsonProperty("startMapY")]
+		[JsonProperty("startY")]
 		public int StartMapY { get; set; }
 
 		#endregion Starting Positions
