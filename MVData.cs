@@ -70,7 +70,6 @@ namespace MVDeserializer
 				int mapNumber = int.Parse(fileName.Substring(3, 3));
 				data.Maps[mapNumber] = JsonConvert.DeserializeObject<Map>(File.ReadAllText(filePath));
 				data.Maps[mapNumber].Id = mapNumber;
-				data.Maps[mapNumber].Events.ForEach(ev => { if (ev != null) ev.Id = mapNumber; });
 			}
 			data.Maps = data.Maps.ToList();
 
